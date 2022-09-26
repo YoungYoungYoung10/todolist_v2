@@ -1,0 +1,31 @@
+<%- include("header") -%>
+
+  <div class="box" id="heading">
+    <h1>
+      <%= listTitle %>
+    </h1>
+  </div>
+  
+  <div class="box">
+    <% newListItems.forEach(function(newListItem){ %>
+      <form action="/delete" method="post">
+        <div class="item">
+          <!-- 但是在这里，没有一个点击btn来trigger一个post request，
+          所以使用onchange来监听变化以起到trigger的作用 -->
+          <input name="checkbox" type="checkbox" value="<%=newListItem._id%>" onChange="this.form.submit()">
+          <p>
+            <%= newListItem.name %>
+          </p>
+        </div>
+        <input type="hidden" name="listName" value="<%=listTitle%>"></input>
+      </form>
+      <% }) %>
+      <!-- 在这个form当中，submit btn被点击之后，<form>当中的post会被trigger 
+        整个form里面的内容会被req.body接收到-->
+        <form class="item" action="/" method="post">
+          <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+          <button type="submit" name="list" value="<%= listTitle %>" >+</button>
+        </form>
+  </div>
+
+<%- include("footer") -%>
